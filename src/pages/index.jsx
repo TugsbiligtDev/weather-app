@@ -9,7 +9,6 @@ const index = () => {
     <div className="relative flex w-full h-screen overflow-hidden">
       <Circles />
       <div className="w-full flex relative">
-        <LocationSearch />
         <DayForecast />
         <NightForecast />
       </div>
