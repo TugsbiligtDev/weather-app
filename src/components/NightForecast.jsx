@@ -24,7 +24,7 @@ const NightForecast = ({ date, loc, temp, condition, loading, weather }) => {
 
           <div>
             <p className="text-[144px] font-extrabold bg-gradient-to-b from-[#F9FAFB] to-[rgba(249,250,251,0)] bg-clip-text text-transparent">
-              {temp}°C
+              {temp}°
             </p>
             <p className="text-[#777CCE] font-extrabold text-2xl">
               {condition}

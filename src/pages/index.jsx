@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 const Index = () => {
   const weatherApiKey = "899d9c2c0f5845838dc70138240912";
   const [weather, setWeather] = useState();
-  const [cityName, setCityName] = useState("Beijing");
+  const [cityName, setCityName] = useState("Ulaanbaatar");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

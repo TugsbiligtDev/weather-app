@@ -1,5 +1,13 @@
 import LocationSearch from "./LocationSearch";
-const DayForecast = ({ date, loc, temp, condition, loading, weather }) => {
+const DayForecast = ({
+  date,
+  loc,
+  temp,
+  condition,
+  loading,
+  weather,
+  onCitySelect,
+}) => {
   if (loading || !weather) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -15,7 +23,7 @@ const DayForecast = ({ date, loc, temp, condition, loading, weather }) => {
         </div>
 
         <div className="relative w-[414px] h-[832px] rounded-[48px] bg-white/75 backdrop-blur-md px-10 py-8 z-20">
-          <LocationSearch />
+          <LocationSearch onCitySelect={onCitySelect} />
 
           <div className="flex justify-between items-center">
             <div>
@@ -31,7 +39,7 @@ const DayForecast = ({ date, loc, temp, condition, loading, weather }) => {
 
           <div>
             <p className="text-[144px] font-extrabold bg-gradient-to-b from-[#111827] to-[#6B7280] bg-clip-text text-transparent">
-              {temp}°C
+              {temp}°
             </p>
             <p className="text-[#FF8E27] font-extrabold text-2xl">
               {condition}
