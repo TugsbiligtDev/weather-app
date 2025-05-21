@@ -3,12 +3,10 @@ import DayForecast from "@/components/DayForecast";
 import NightForecast from "@/components/NightForecast";
 import { useState, useEffect } from "react";
 
-// country api https://countriesnow.space/api/v0.1/countries
-
 const Index = () => {
   const weatherApiKey = "899d9c2c0f5845838dc70138240912";
   const [weather, setWeather] = useState();
-  const [cityName, setCityName] = useState("Ulaanbaatar");
+  const [cityName, setCityName] = useState("Beijing");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -20,7 +18,6 @@ const Index = () => {
       .then((data) => {
         setWeather(data);
         setLoading(false);
-        console.log(data);
       });
   }, [cityName]);
 
