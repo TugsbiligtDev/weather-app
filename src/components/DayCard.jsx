@@ -1,6 +1,13 @@
 import LocationSearch from "./LocationSearch";
 
-const DayCard = () => {
+const DayCard = ({ date, loc, temp, condition, loading, weather }) => {
+  if (loading || !weather) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        Loading...
+      </div>
+    );
+  }
   return (
     <div className="relative">
       <div className="absolute -left-19 -top-19 w-[176px] min-w-[64px] z-10">
@@ -12,8 +19,8 @@ const DayCard = () => {
 
         <div className="flex justify-between items-center">
           <div>
-            <p className="text-[#6B7280] text-lg font-medium">May 20, 2025</p>
-            <p className="text-[#111827] text-5xl font-extrabold">Kraków</p>
+            <p className="text-[#6B7280] text-lg font-medium">{date}</p>
+            <p className="text-[#111827] text-5xl font-extrabold">{loc}</p>
           </div>
           <img src="localization_icon.svg" alt="pin" />
         </div>
@@ -24,9 +31,9 @@ const DayCard = () => {
 
         <div>
           <p className="text-[144px] font-extrabold bg-gradient-to-b from-[#111827] to-[#6B7280] bg-clip-text text-transparent">
-            26°
+            {temp}
           </p>
-          <p className="text-[#FF8E27] font-extrabold text-2xl">Bright</p>
+          <p className="text-[#FF8E27] font-extrabold text-2xl">{condition}</p>
         </div>
 
         <div className="flex justify-between pt-12">
