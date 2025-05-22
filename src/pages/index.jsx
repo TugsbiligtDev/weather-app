@@ -21,6 +21,9 @@ const Index = () => {
       });
   }, [cityName]);
 
+  const dayData = weather?.forecast?.forecastday?.[0]?.day;
+  const nightData = weather?.forecast?.forecastday?.[0]?.astro;
+
   return (
     <div className="relative flex w-full h-screen overflow-hidden">
       <Circles />
@@ -28,16 +31,21 @@ const Index = () => {
         <DayForecast
           date={weather?.forecast?.forecastday?.[0]?.date}
           loc={weather?.location?.name}
-          temp={weather?.current?.temp_c}
-          condition={weather?.current?.condition?.text}
+          temp={dayData?.maxtemp_c || weather?.current?.temp_c} // Use max day temp
+          condition={
+            dayData?.condition?.text || weather?.current?.condition?.text
+          }
           loading={loading}
           weather={weather}
+          onCitySelect={setCityName}
         />
         <NightForecast
           date={weather?.forecast?.forecastday?.[0]?.date}
           loc={weather?.location?.name}
-          temp={weather?.current?.temp_c}
-          condition={weather?.current?.condition?.text}
+          temp={dayData?.mintemp_c || weather?.current?.temp_c} // Use min temp for night
+          condition={
+            dayData?.condition?.text || weather?.current?.condition?.text
+          }
           loading={loading}
           weather={weather}
         />

@@ -53,7 +53,7 @@ const LocationSearch = ({ onCitySelect }) => {
 
   const handleCityClick = (cityName) => {
     setSelectedCity(cityName);
-    onCitySelect(cityName); // <-- this tells the parent
+    onCitySelect(cityName);
     setSearchValue("");
     setShowDropdown(false);
   };
