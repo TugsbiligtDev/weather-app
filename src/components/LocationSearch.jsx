@@ -68,7 +68,6 @@ const LocationSearch = ({ onCitySelect }) => {
           className="w-full h-full text-black text-[32px] font-bold outline-none"
           value={searchValue}
           onChange={(event) => setSearchValue(event.target.value.toLowerCase())}
-          onFocus={() => setShowDropdown(searchValue.length > 0)}
         />
       </div>
       {showDropdown && filteredCities.length > 0 && (
