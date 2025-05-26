@@ -22,7 +22,6 @@ const Index = () => {
   }, [cityName]);
 
   const dayData = weather?.forecast?.forecastday?.[0]?.day;
-  const nightData = weather?.forecast?.forecastday?.[0]?.astro;
 
   return (
     <div className="relative flex w-full h-screen overflow-hidden">
