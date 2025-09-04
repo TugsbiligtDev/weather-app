@@ -30,7 +30,7 @@ const DayForecast = ({ date, loc, temp, condition, loading, onCitySelect }) => {
               </div>
 
               <div className="flex justify-center items-center py-10">
-                <img src="sun.png" alt="sun" width={260} height={260} />
+                <img src="sun.webp" alt="sun" width={260} height={260} />
               </div>
 
               <div>

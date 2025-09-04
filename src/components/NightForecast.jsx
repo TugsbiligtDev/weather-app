@@ -20,7 +20,7 @@ const NightForecast = ({ date, loc, temp, condition, loading }) => {
               </div>
 
               <div className="flex justify-center items-center py-10">
-                <img src="moon.png" alt="moon" width={260} height={260} />
+                <img src="moon.webp" alt="moon" width={260} height={260} />
               </div>
 
               <div>

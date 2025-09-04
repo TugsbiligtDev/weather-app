@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const weatherApiKey = "899d9c2c0f5845838dc70138240912";
+const weatherApiKey = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
 
 const LocationSearch = ({ onCitySelect }) => {
   const [countries, setCountries] = useState([]);
@@ -9,6 +9,8 @@ const LocationSearch = ({ onCitySelect }) => {
   const [filteredCities, setFilteredCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState("Ulan bator");
   const [showDropdown, setShowDropdown] = useState(false);
+  const [countriesError, setCountriesError] = useState(null);
+  const [isLoadingCountries, setIsLoadingCountries] = useState(false);
 
   useEffect(() => {
     fetchCountriesData();
@@ -34,10 +36,32 @@ const LocationSearch = ({ onCitySelect }) => {
   }, [searchValue]);
 
   const fetchCountriesData = () => {
+    setIsLoadingCountries(true);
+    setCountriesError(null);
+
     fetch("https://countriesnow.space/api/v0.1/countries")
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Countries service error: ${response.status}`);
+        }
+        return response.json();
+      })
       .then((data) => {
-        setCountries(data.data);
+        if (data.error) {
+          throw new Error(data.error || "Countries data not available");
+        }
+        setCountries(data.data || []);
+        setCountriesError(null);
+      })
+      .catch((error) => {
+        console.error("Countries API error:", error);
+        setCountriesError(
+          "Unable to load countries. Search may not work properly."
+        );
+        setCountries([]);
+      })
+      .finally(() => {
+        setIsLoadingCountries(false);
       });
   };
 
@@ -45,9 +69,20 @@ const LocationSearch = ({ onCitySelect }) => {
     fetch(
       `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${selectedCity}`
     )
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Weather service error: ${response.status}`);
+        }
+        return response.json();
+      })
       .then((data) => {
+        if (data.error) {
+          throw new Error(data.error.message || "Weather data not available");
+        }
         setWeather(data?.forecast?.forecastday[0]);
+      })
+      .catch((error) => {
+        console.error("Weather API error in LocationSearch:", error);
       });
   };
 
@@ -70,20 +105,36 @@ const LocationSearch = ({ onCitySelect }) => {
           onChange={(event) => setSearchValue(event.target.value.toLowerCase())}
         />
       </div>
-      {showDropdown && filteredCities.length > 0 && (
+      {showDropdown && (
         <div className="flex flex-col rounded-2xl bg-white mt-2 p-4 shadow-lg transition-all duration-300 ease-in-out">
-          {filteredCities.map((city) => (
-            <div
-              key={city.name + city.country}
-              className="flex gap-4 items-center py-3 hover:bg-gray-100 cursor-pointer rounded-xl px-3 transition-colors duration-200"
-              onClick={() => handleCityClick(city.name)}
-            >
-              <img src="room.svg" alt="icon" className="w-6 h-6" />
-              <p className="text-black text-[28px] font-bold">
-                {city.name}, {city.country}
-              </p>
+          {countriesError ? (
+            <div className="text-center py-4">
+              <p className="text-red-500 text-sm mb-2">{countriesError}</p>
+              <button
+                onClick={fetchCountriesData}
+                className="text-blue-500 hover:text-blue-600 text-sm underline"
+              >
+                Retry loading countries
+              </button>
             </div>
-          ))}
+          ) : filteredCities.length > 0 ? (
+            filteredCities.map((city) => (
+              <div
+                key={city.name + city.country}
+                className="flex gap-4 items-center py-3 hover:bg-gray-100 cursor-pointer rounded-xl px-3 transition-colors duration-200"
+                onClick={() => handleCityClick(city.name)}
+              >
+                <img src="room.svg" alt="icon" className="w-6 h-6" />
+                <p className="text-black text-[28px] font-bold">
+                  {city.name}, {city.country}
+                </p>
+              </div>
+            ))
+          ) : searchValue.length > 0 ? (
+            <div className="text-center py-4">
+              <p className="text-gray-500 text-sm">No cities found</p>
+            </div>
+          ) : null}
         </div>
       )}
     </div>
