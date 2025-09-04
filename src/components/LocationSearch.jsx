@@ -132,7 +132,7 @@ const LocationSearch = ({ onCitySelect }) => {
             ))
           ) : searchValue.length > 0 ? (
             <div className="text-center py-4">
-              <p className="text-gray-500 text-sm">No cities found</p>
+              <p className="text-gray-500 text-xl">No cities found</p>
             </div>
           ) : null}
         </div>
