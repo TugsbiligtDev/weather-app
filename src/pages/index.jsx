@@ -49,22 +49,12 @@ const Index = () => {
       <Circles />
       <div className="w-full flex relative">
         {error ? (
-          <div className="w-full h-screen flex items-center justify-center bg-gray-50">
+          <div className="w-full h-screen flex items-center justify-center bg-gray-50 relative z-50">
             <div className="text-center max-w-md mx-auto p-6">
-              <div className="text-red-500 text-6xl mb-4">⚠️</div>
               <h2 className="text-2xl font-bold text-gray-800 mb-2">
                 Weather Service Unavailable
               </h2>
               <p className="text-gray-600 mb-6">{error}</p>
-              <button
-                onClick={() => {
-                  setError(null);
-                  setCityName(cityName);
-                }}
-                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
-              >
-                Try Again
-              </button>
             </div>
           </div>
         ) : (
