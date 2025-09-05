@@ -5,12 +5,10 @@ const weatherApiKey = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
 const LocationSearch = ({ onCitySelect }) => {
   const [countries, setCountries] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [weather, setWeather] = useState({});
   const [filteredCities, setFilteredCities] = useState([]);
-  const [selectedCity, setSelectedCity] = useState("Ulan bator");
+  const [selectedCity, setSelectedCity] = useState("Ulaanbaatar");
   const [showDropdown, setShowDropdown] = useState(false);
   const [countriesError, setCountriesError] = useState(null);
-  const [isLoadingCountries, setIsLoadingCountries] = useState(false);
 
   useEffect(() => {
     fetchCountriesData();
@@ -36,7 +34,6 @@ const LocationSearch = ({ onCitySelect }) => {
   }, [searchValue]);
 
   const fetchCountriesData = () => {
-    setIsLoadingCountries(true);
     setCountriesError(null);
 
     fetch("https://countriesnow.space/api/v0.1/countries")
@@ -59,9 +56,6 @@ const LocationSearch = ({ onCitySelect }) => {
           "Unable to load countries. Search may not work properly."
         );
         setCountries([]);
-      })
-      .finally(() => {
-        setIsLoadingCountries(false);
       });
   };
 
@@ -79,7 +73,6 @@ const LocationSearch = ({ onCitySelect }) => {
         if (data.error) {
           throw new Error(data.error.message || "Weather data not available");
         }
-        setWeather(data?.forecast?.forecastday[0]);
       })
       .catch((error) => {
         console.error("Weather API error in LocationSearch:", error);
@@ -96,7 +89,7 @@ const LocationSearch = ({ onCitySelect }) => {
   return (
     <div className="absolute z-50 -top-25 left-32 transform -translate-x-1/2 w-[567px] max-w-[90vw]">
       <div className="flex gap-4 items-center rounded-[48px] bg-white p-4 shadow-lg">
-        <img src="search.svg" alt="search" className="w-6 h-6" />
+        <img src="/search.svg" alt="search" className="w-6 h-6" />
         <input
           type="text"
           placeholder="Enter the city"
@@ -124,7 +117,7 @@ const LocationSearch = ({ onCitySelect }) => {
                 className="flex gap-4 items-center py-3 hover:bg-gray-100 cursor-pointer rounded-xl px-3 transition-colors duration-200"
                 onClick={() => handleCityClick(city.name)}
               >
-                <img src="room.svg" alt="icon" className="w-6 h-6" />
+                <img src="/room.svg" alt="icon" className="w-6 h-6" />
                 <p className="text-black text-[28px] font-bold">
                   {city.name}, {city.country}
                 </p>
