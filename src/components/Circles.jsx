@@ -3,10 +3,10 @@ const Circles = () => {
     <div className="absolute w-full h-full z-10 flex items-center justify-center overflow-hidden">
       <div className="absolute w-36 h-36 ">
         <div className="absolute w-18 h-36 border-t border-b border-l border-black/10 rounded-l-full left-0 flex justify-end items-center pr-1.5">
-          <img src="/left.svg" alt="left" />
+          <img src="/left.svg" alt="Left arrow navigation icon" />
         </div>
         <div className="absolute w-18 h-36 border-t border-b border-r border-white/10 rounded-r-full right-0 bg-[#F3F4F6] flex justify-start items-center pl-1.5">
-          <img src="/right.svg" alt="" />
+          <img src="/right.svg" alt="Right arrow navigation icon" />
         </div>
       </div>
 

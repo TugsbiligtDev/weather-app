@@ -1,12 +1,9 @@
 import { useState, useEffect } from "react";
 
-const weatherApiKey = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
-
 const LocationSearch = ({ onCitySelect }) => {
   const [countries, setCountries] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [filteredCities, setFilteredCities] = useState([]);
-  const [selectedCity, setSelectedCity] = useState("Ulaanbaatar");
   const [showDropdown, setShowDropdown] = useState(false);
   const [countriesError, setCountriesError] = useState(null);
 
@@ -15,23 +12,28 @@ const LocationSearch = ({ onCitySelect }) => {
   }, []);
 
   useEffect(() => {
-    fetchWeatherData();
-  }, [selectedCity]);
+    const timeoutId = setTimeout(() => {
+      if (searchValue.length > 0) {
+        let searchResults = [];
 
-  useEffect(() => {
-    let searchResults = [];
+        countries?.map((country) => {
+          return country?.cities?.map((city) => {
+            if (city.toLowerCase().includes(searchValue.toLowerCase())) {
+              searchResults.push({ name: city, country: country.country });
+            }
+          });
+        });
 
-    countries?.map((country) => {
-      return country?.cities?.map((city) => {
-        if (city.toLowerCase().includes(searchValue)) {
-          searchResults.push({ name: city, country: country.country });
-        }
-      });
-    });
+        setFilteredCities(searchResults.slice(0, 5));
+        setShowDropdown(true);
+      } else {
+        setFilteredCities([]);
+        setShowDropdown(false);
+      }
+    }, 300);
 
-    setFilteredCities(searchResults.slice(0, 5));
-    setShowDropdown(searchValue.length > 0);
-  }, [searchValue]);
+    return () => clearTimeout(timeoutId);
+  }, [searchValue, countries]);
 
   const fetchCountriesData = () => {
     setCountriesError(null);
@@ -51,7 +53,6 @@ const LocationSearch = ({ onCitySelect }) => {
         setCountriesError(null);
       })
       .catch((error) => {
-        console.error("Countries API error:", error);
         setCountriesError(
           "Unable to load countries. Search may not work properly."
         );
@@ -59,28 +60,7 @@ const LocationSearch = ({ onCitySelect }) => {
       });
   };
 
-  const fetchWeatherData = () => {
-    fetch(
-      `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${selectedCity}`
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Weather service error: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (data.error) {
-          throw new Error(data.error.message || "Weather data not available");
-        }
-      })
-      .catch((error) => {
-        console.error("Weather API error in LocationSearch:", error);
-      });
-  };
-
   const handleCityClick = (cityName) => {
-    setSelectedCity(cityName);
     onCitySelect(cityName);
     setSearchValue("");
     setShowDropdown(false);
@@ -89,13 +69,13 @@ const LocationSearch = ({ onCitySelect }) => {
   return (
     <div className="absolute z-50 -top-25 left-32 transform -translate-x-1/2 w-[567px] max-w-[90vw]">
       <div className="flex gap-4 items-center rounded-[48px] bg-white p-4 shadow-lg">
-        <img src="/search.svg" alt="search" className="w-6 h-6" />
+        <img src="/search.svg" alt="Search icon" className="w-6 h-6" />
         <input
           type="text"
           placeholder="Enter the city"
           className="w-full h-full text-black text-[32px] font-bold outline-none"
           value={searchValue}
-          onChange={(event) => setSearchValue(event.target.value.toLowerCase())}
+          onChange={(event) => setSearchValue(event.target.value)}
         />
       </div>
       {showDropdown && (
@@ -117,7 +97,7 @@ const LocationSearch = ({ onCitySelect }) => {
                 className="flex gap-4 items-center py-3 hover:bg-gray-100 cursor-pointer rounded-xl px-3 transition-colors duration-200"
                 onClick={() => handleCityClick(city.name)}
               >
-                <img src="/room.svg" alt="icon" className="w-6 h-6" />
+                <img src="/room.svg" alt="Location icon" className="w-6 h-6" />
                 <p className="text-black text-[28px] font-bold">
                   {city.name}, {city.country}
                 </p>

@@ -14,6 +14,14 @@ const Index = () => {
     setLoading(true);
     setError(null);
 
+    if (!weatherApiKey) {
+      setError(
+        "Weather API key is not configured. Please check your environment variables."
+      );
+      setLoading(false);
+      return;
+    }
+
     fetch(
       `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${cityName}`
     )
@@ -32,7 +40,6 @@ const Index = () => {
         setError(null);
       })
       .catch((error) => {
-        console.error("Weather API error:", error);
         setError(
           error.message ||
             "Unable to fetch weather data. Please try again later."
@@ -49,13 +56,8 @@ const Index = () => {
       <Circles />
       <div className="w-full flex relative">
         {error ? (
-          <div className="w-full h-screen flex items-center justify-center bg-gray-50 relative z-50">
-            <div className="text-center max-w-md mx-auto p-6">
-              <h2 className="text-2xl font-bold text-gray-800 mb-2">
-                Weather Service Unavailable
-              </h2>
-              <p className="text-gray-600 mb-6">{error}</p>
-            </div>
+          <div className="w-full h-screen flex top-[20%] justify-center relative z-50">
+            <h1 className="text-red-500 text-2xl">{error}</h1>
           </div>
         ) : (
           <>

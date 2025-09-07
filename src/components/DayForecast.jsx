@@ -5,7 +5,11 @@ const DayForecast = ({ date, loc, temp, condition, loading, onCitySelect }) => {
     <div className="relative w-1/2 h-screen bg-[#F3F4F6] flex justify-center items-center overflow-hidden">
       <div className="relative">
         <div className="absolute -left-19 -top-19 w-[176px] min-w-[64px] z-10">
-          <img src="/orange.svg" alt="orange" className="w-full h-auto" />
+          <img
+            src="/orange.svg"
+            alt="Orange circle"
+            className="w-full h-auto"
+          />
         </div>
 
         <div className="relative w-[414px] h-[832px] rounded-[48px] bg-white/75 backdrop-blur-md px-10 py-8 z-20">
@@ -26,11 +30,16 @@ const DayForecast = ({ date, loc, temp, condition, loading, onCitySelect }) => {
                     {loc}
                   </p>
                 </div>
-                <img src="/localization_icon.svg" alt="pin" />
+                <img src="/localization_icon.svg" alt="Location pin icon" />
               </div>
 
               <div className="flex justify-center items-center py-10">
-                <img src="/sun.webp" alt="sun" width={260} height={260} />
+                <img
+                  src="/sun.webp"
+                  alt="Sun weather icon"
+                  width={260}
+                  height={260}
+                />
               </div>
 
               <div>
@@ -43,10 +52,10 @@ const DayForecast = ({ date, loc, temp, condition, loading, onCitySelect }) => {
               </div>
 
               <div className="flex justify-between pt-12">
-                <img src="/home.svg" alt="home" />
-                <img src="/pin.svg" alt="pin" />
-                <img src="/heart.svg" alt="heart" />
-                <img src="/user.svg" alt="user" />
+                <img src="/home.svg" alt="Home navigation icon" />
+                <img src="/pin.svg" alt="Location pin navigation icon" />
+                <img src="/heart.svg" alt="Favorites heart icon" />
+                <img src="/user.svg" alt="User profile icon" />
               </div>
             </>
           )}
